@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LoL.Data;
 using LoL.Models;
+using LoL.ViewModels;
 
 namespace LoL.Controllers
 {
@@ -48,11 +49,15 @@ namespace LoL.Controllers
         }
 
         // GET: Games/Create
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
             ViewData["Composition1Id"] = new SelectList(_context.Compositions, "Id", "Id");
             ViewData["Composition2Id"] = new SelectList(_context.Compositions, "Id", "Id");
-            return View();
+            return View(new GameCreationViewModel {
+                Game = new Game(),
+                Teams = await _context.Teams.ToListAsync(),
+                Legends = await _context.Legends.ToListAsync(),
+            });
         }
 
         // POST: Games/Create

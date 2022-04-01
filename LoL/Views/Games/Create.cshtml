@@ -1,4 +1,4 @@
-﻿@model LoL.Models.Game
+﻿@model LoL.ViewModels.GameCreationViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -12,23 +12,41 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Composition1Id" class="control-label"></label>
-                <select asp-for="Composition1Id" class ="form-control" asp-items="ViewBag.Composition1Id"></select>
+            <div>
+                @await Html.PartialAsync("CompositionPartial", Model.Game.Composition1)
+                <div class="form-group">
+                    <label asp-for="Game.Composition1Id" class="control-label"></label>
+                    <select asp-for="Game.Composition1.Id" class="form-control">
+                        @foreach (var team in Model.Teams)
+                        {
+                            <option value=@team.Id>@team.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition1Id" class="control-label"></label>
+                    <select asp-for="Game.Composition1.Id" class="form-control">
+                        @foreach (var team in Model.Teams)
+                        {
+                            <option value=@team.Id>@team.Name</option>
+                        }
+                    </select>
+                </div>
+
             </div>
             <div class="form-group">
-                <label asp-for="Composition2Id" class="control-label"></label>
-                <select asp-for="Composition2Id" class ="form-control" asp-items="ViewBag.Composition2Id"></select>
+                <label asp-for="Game.Composition2Id" class="control-label"></label>
+                <select asp-for="Game.Composition2Id" class="form-control" asp-items="ViewBag.Composition2Id"></select>
             </div>
             <div class="form-group">
-                <label asp-for="Winner" class="control-label"></label>
-                <input asp-for="Winner" class="form-control" />
-                <span asp-validation-for="Winner" class="text-danger"></span>
+                <label asp-for="Game.Winner" class="control-label"></label>
+                <input asp-for="Game.Winner" class="form-control" />
+                <span asp-validation-for="Game.Winner" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GameDate" class="control-label"></label>
-                <input asp-for="GameDate" class="form-control" />
-                <span asp-validation-for="GameDate" class="text-danger"></span>
+                <label asp-for="Game.GameDate" class="control-label"></label>
+                <input asp-for="Game.GameDate" class="form-control" />
+                <span asp-validation-for="Game.GameDate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -42,5 +60,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }
