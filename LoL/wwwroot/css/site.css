@@ -16,3 +16,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.game-teams-select {
+    display: flex;
+    flex-direction: row;
+}
+
+.game-teams-select div {
+    flex: 1;
+}

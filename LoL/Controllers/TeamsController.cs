@@ -49,7 +49,7 @@ namespace LoL.Controllers
         // GET: Teams/Create
         public IActionResult Create()
         {
-            return View(new TeamCreationViewModel() { Players = _context.Players.ToList() });
+            return View(new TeamCreationViewModel() { Players = GetFreePlayers() });
         }
 
         // POST: Teams/Create
@@ -65,7 +65,7 @@ namespace LoL.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(new TeamCreationViewModel() { Players = _context.Players.ToList(), Team = team });
+            return View(new TeamCreationViewModel() { Players = GetFreePlayers(), Team = team });
         }
 
         // GET: Teams/Edit/5
@@ -82,7 +82,7 @@ namespace LoL.Controllers
                 return NotFound();
             }
 
-            return View(new TeamCreationViewModel() { Players = _context.Players.ToList(), Team = team });
+            return View(new TeamCreationViewModel() { Players = GetFreePlayersOrInTeam((int)id), Team = team });
         }
 
         // POST: Teams/Edit/5
@@ -118,7 +118,7 @@ namespace LoL.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(new TeamCreationViewModel() { Players = _context.Players.ToList(), Team = team });
+            return View(new TeamCreationViewModel() { Players = GetFreePlayersOrInTeam((int)id), Team = team });
         }
 
         // GET: Teams/Delete/5
@@ -161,6 +161,34 @@ namespace LoL.Controllers
         private bool TeamExists(int id)
         {
             return _context.Teams.Any(e => e.Id == id);
+        }
+
+        private IEnumerable<Player> GetFreePlayers()
+        {
+            return _context.Players.FromSqlRaw(@"SELECT TOP (1000) p.[Id]
+      ,p.[Name]
+      ,[Surname]
+      ,[Nickname]
+      ,[Nationality]
+      ,[Category]
+      ,[Birthday]
+  FROM [LoL].[dbo].[Players] p
+  LEFT OUTER JOIN [Teams] t on p.Id in (t.Player1Id, t.Player2Id, t.Player3Id, t.Player4Id, t.Player5Id)
+  WHERE t.Id is null");
+        }
+
+        private IEnumerable<Player> GetFreePlayersOrInTeam(int teamId)
+        {
+            return _context.Players.FromSqlRaw(@"SELECT TOP (1000) p.[Id]
+      ,p.[Name]
+      ,[Surname]
+      ,[Nickname]
+      ,[Nationality]
+      ,[Category]
+      ,[Birthday]
+  FROM [LoL].[dbo].[Players] p
+  LEFT OUTER JOIN [Teams] t on p.Id in (t.Player1Id, t.Player2Id, t.Player3Id, t.Player4Id, t.Player5Id)
+  WHERE t.Id is null OR t.Id = {0}", teamId);
         }
     }
 }

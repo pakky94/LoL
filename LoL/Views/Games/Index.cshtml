@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Composition1)
+                Team 1
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Composition2)
+                Team 2
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Winner)
@@ -31,16 +31,20 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Composition1.Id)
+                @item.Composition1!.Team!.Name
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Composition2.Id)
+                @item.Composition2!.Team!.Name
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Winner)
+                @(
+                item.Winner == item.Composition1.Id
+                ? item.Composition1!.Team!.Name
+                : item.Composition2!.Team!.Name
+                )
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GameDate)
+                @item.GameDate.ToShortDateString()
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

@@ -23,7 +23,7 @@ namespace LoL.Controllers
         // GET: Games
         public async Task<IActionResult> Index()
         {
-            var loLDbContext = _context.Games.Include(g => g.Composition1).Include(g => g.Composition2);
+            var loLDbContext = _context.Games.Include(g => g.Composition1.Team).Include(g => g.Composition2.Team);
             return View(await loLDbContext.ToListAsync());
         }
 
@@ -36,8 +36,8 @@ namespace LoL.Controllers
             }
 
             var game = await _context.Games
-                .Include(g => g.Composition1)
-                .Include(g => g.Composition2)
+                .Include(g => g.Composition1.Team)
+                .Include(g => g.Composition2.Team)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (game == null)
             {
@@ -86,14 +86,33 @@ namespace LoL.Controllers
                 return NotFound();
             }
 
-            var game = await _context.Games.FindAsync(id);
+            var game = await _context.Games
+                .Include(g => g.Composition1)
+                .Include(g => g.Composition1.Team)
+                .Include(g => g.Composition1.Team!.Player1)
+                .Include(g => g.Composition1.Team!.Player2)
+                .Include(g => g.Composition1.Team!.Player3)
+                .Include(g => g.Composition1.Team!.Player4)
+                .Include(g => g.Composition1.Team!.Player5)
+                .Include(g => g.Composition2)
+                .Include(g => g.Composition2.Team)
+                .Include(g => g.Composition2.Team!.Player1)
+                .Include(g => g.Composition2.Team!.Player2)
+                .Include(g => g.Composition2.Team!.Player3)
+                .Include(g => g.Composition2.Team!.Player4)
+                .Include(g => g.Composition2.Team!.Player5)
+                .FirstOrDefaultAsync(g => g.Id == id);
+
             if (game == null)
             {
                 return NotFound();
             }
-            ViewData["Composition1Id"] = new SelectList(_context.Compositions, "Id", "Id", game.Composition1Id);
-            ViewData["Composition2Id"] = new SelectList(_context.Compositions, "Id", "Id", game.Composition2Id);
-            return View(game);
+
+            return View(new GameCreationViewModel {
+                Game = game,
+                Teams = await _context.Teams.ToListAsync(),
+                Legends = await _context.Legends.ToListAsync(),
+            });
         }
 
         // POST: Games/Edit/5
@@ -101,7 +120,7 @@ namespace LoL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Composition1Id,Composition2Id,Winner,GameDate,Id")] Game game)
+        public async Task<IActionResult> Edit(int id, Game game)
         {
             if (id != game.Id)
             {
@@ -128,9 +147,12 @@ namespace LoL.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Composition1Id"] = new SelectList(_context.Compositions, "Id", "Id", game.Composition1Id);
-            ViewData["Composition2Id"] = new SelectList(_context.Compositions, "Id", "Id", game.Composition2Id);
-            return View(game);
+
+            return View(new GameCreationViewModel {
+                Game = game,
+                Teams = await _context.Teams.ToListAsync(),
+                Legends = await _context.Legends.ToListAsync(),
+            });
         }
 
         // GET: Games/Delete/5
