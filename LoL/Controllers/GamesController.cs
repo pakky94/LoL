@@ -50,8 +50,6 @@ namespace LoL.Controllers
         // GET: Games/Create
         public async Task<IActionResult> CreateAsync()
         {
-            ViewData["Composition1Id"] = new SelectList(_context.Compositions, "Id", "Id");
-            ViewData["Composition2Id"] = new SelectList(_context.Compositions, "Id", "Id");
             return View(new GameCreationViewModel {
                 Game = new Game(),
                 Teams = await _context.Teams.ToListAsync(),
@@ -64,7 +62,7 @@ namespace LoL.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Composition1Id,Composition2Id,Winner,GameDate,Id")] Game game)
+        public async Task<IActionResult> Create(Game game)
         {
             if (ModelState.IsValid)
             {
@@ -72,9 +70,12 @@ namespace LoL.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Composition1Id"] = new SelectList(_context.Compositions, "Id", "Id", game.Composition1Id);
-            ViewData["Composition2Id"] = new SelectList(_context.Compositions, "Id", "Id", game.Composition2Id);
-            return View(game);
+
+            return View(new GameCreationViewModel {
+                Game = game,
+                Teams = await _context.Teams.ToListAsync(),
+                Legends = await _context.Legends.ToListAsync(),
+            });
         }
 
         // GET: Games/Edit/5
@@ -158,6 +159,9 @@ namespace LoL.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var game = await _context.Games.FindAsync(id);
+            if (game is null)
+                return NotFound();
+
             _context.Games.Remove(game);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
