@@ -1,13 +1,9 @@
-﻿#nullable disable
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LoL.Data;
 using LoL.Models;
+using LoL.ViewModel;
 
 namespace LoL.Controllers
 {
@@ -53,12 +49,7 @@ namespace LoL.Controllers
         // GET: Teams/Create
         public IActionResult Create()
         {
-            ViewData["Player1Id"] = new SelectList(_context.Players, "Id", "Nickname");
-            ViewData["Player2Id"] = new SelectList(_context.Players, "Id", "Nickname");
-            ViewData["Player3Id"] = new SelectList(_context.Players, "Id", "Nickname");
-            ViewData["Player4Id"] = new SelectList(_context.Players, "Id", "Nickname");
-            ViewData["Player5Id"] = new SelectList(_context.Players, "Id", "Nickname");
-            return View();
+            return View(new TeamCreationViewModel() { Players = _context.Players.ToList() });
         }
 
         // POST: Teams/Create
@@ -74,12 +65,7 @@ namespace LoL.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Player1Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player1Id);
-            ViewData["Player2Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player2Id);
-            ViewData["Player3Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player3Id);
-            ViewData["Player4Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player4Id);
-            ViewData["Player5Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player5Id);
-            return View(team);
+            return View(new TeamCreationViewModel() { Players = _context.Players.ToList(), Team = team });
         }
 
         // GET: Teams/Edit/5
@@ -95,12 +81,8 @@ namespace LoL.Controllers
             {
                 return NotFound();
             }
-            ViewData["Player1Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player1Id);
-            ViewData["Player2Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player2Id);
-            ViewData["Player3Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player3Id);
-            ViewData["Player4Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player4Id);
-            ViewData["Player5Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player5Id);
-            return View(team);
+
+            return View(new TeamCreationViewModel() { Players = _context.Players.ToList(), Team = team });
         }
 
         // POST: Teams/Edit/5
@@ -135,12 +117,8 @@ namespace LoL.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Player1Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player1Id);
-            ViewData["Player2Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player2Id);
-            ViewData["Player3Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player3Id);
-            ViewData["Player4Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player4Id);
-            ViewData["Player5Id"] = new SelectList(_context.Players, "Id", "Nickname", team.Player5Id);
-            return View(team);
+
+            return View(new TeamCreationViewModel() { Players = _context.Players.ToList(), Team = team });
         }
 
         // GET: Teams/Delete/5

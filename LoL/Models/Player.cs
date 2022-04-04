@@ -7,5 +7,5 @@ public class Player : EntityBase
     public string Nickname { get; set; }
     public string Nationality { get; set; }
     public string Category { get; set; }
-    public DateOnly Birthday { get; set; }
+    public DateTime Birthday { get; set; }
 }

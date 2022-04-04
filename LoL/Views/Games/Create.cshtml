@@ -13,10 +13,10 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div>
-                @await Html.PartialAsync("CompositionPartial", Model.Game.Composition1)
                 <div class="form-group">
                     <label asp-for="Game.Composition1Id" class="control-label"></label>
-                    <select asp-for="Game.Composition1.Id" class="form-control">
+                    <select asp-for="Game.Composition1.TeamId" class="form-control">
+                        <option disabled=true selected=true value="">Select team</option>
                         @foreach (var team in Model.Teams)
                         {
                             <option value=@team.Id>@team.Name</option>
@@ -24,20 +24,152 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label asp-for="Game.Composition1Id" class="control-label"></label>
-                    <select asp-for="Game.Composition1.Id" class="form-control">
-                        @foreach (var team in Model.Teams)
+                    <label asp-for="Game.Composition1.Team.Player1Id" class="control-label">
+                        @(Model.Game?.Composition1?.Team?.Player1?.Nickname ?? "Player 1")
+                    </label>
+                    <select class="legend-select form-control" id="legend-select-1-1" asp-for="Game.Composition1.Legend1Id">
+                        <option disabled=true selected=true value="">Select legend</option>
+                        @foreach (var legend in Model.Legends)
                         {
-                            <option value=@team.Id>@team.Name</option>
+                            <option value="@legend.Id">@legend.Name</option>
                         }
                     </select>
+                    <span asp-validation-for="Game.Composition1.Legend1Id" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition1.Team.Player2Id" class="control-label">
+                        @(Model.Game?.Composition1?.Team?.Player2?.Nickname ?? "Player 2")
+                    </label>
+                    <select class="legend-select form-control" id="legend-select-1-2" asp-for="Game.Composition1.Legend2Id">
+                        <option disabled=true selected=true value="">Select legend</option>
+                        @foreach (var legend in Model.Legends)
+                        {
+                            <option value="@legend.Id">@legend.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Game.Composition1.Legend2Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition1.Team.Player3Id" class="control-label">
+                        @(Model.Game?.Composition1?.Team?.Player3?.Nickname ?? "Player 3")
+                    </label>
+                    <select class="legend-select form-control" id="legend-select-1-3" asp-for="Game.Composition1.Legend3Id">
+                        <option disabled=true selected=true value="">Select legend</option>
+                        @foreach (var legend in Model.Legends)
+                        {
+                            <option value="@legend.Id">@legend.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Game.Composition1.Legend3Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition1.Team.Player4Id" class="control-label">
+                        @(Model.Game?.Composition1?.Team?.Player4?.Nickname ?? "Player 4")
+                    </label>
+                    <select class="legend-select form-control" id="legend-select-1-4" asp-for="Game.Composition1.Legend4Id">
+                        <option disabled=true selected=true value="">Select legend</option>
+                        @foreach (var legend in Model.Legends)
+                        {
+                            <option value="@legend.Id">@legend.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Game.Composition1.Legend4Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition1.Team.Player5Id" class="control-label">
+                        @(Model.Game?.Composition1?.Team?.Player5?.Nickname ?? "Player 5")
+                    </label>
+                    <select class="legend-select form-control" id="legend-select-1-5" asp-for="Game.Composition1.Legend5Id">
+                        <option disabled=true selected=true value="">Select legend</option>
+                        @foreach (var legend in Model.Legends)
+                        {
+                            <option value="@legend.Id">@legend.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Game.Composition1.Legend5Id" class="text-danger"></span>
+                </div>
+            </div>
 
+
+            <div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition2Id" class="control-label"></label>
+                    <select asp-for="Game.Composition2.TeamId" class="form-control">
+                        <option disabled=true selected=true value="">Select team</option>
+                        @foreach (var team in Model.Teams)
+                        {
+                            <option value=@team.Id>@team.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition2.Team.Player1Id" class="control-label">
+                        @(Model.Game?.Composition2?.Team?.Player1?.Nickname ?? "Player 1")
+                    </label>
+                    <select class="legend-select form-control" id="legend-select-1-1" asp-for="Game.Composition2.Legend1Id">
+                        <option disabled=true selected=true value="">Select legend</option>
+                        @foreach (var legend in Model.Legends)
+                        {
+                            <option value="@legend.Id">@legend.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Game.Composition2.Legend1Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition2.Team.Player2Id" class="control-label">
+                        @(Model.Game?.Composition2?.Team?.Player2?.Nickname ?? "Player 2")
+                    </label>
+                    <select class="legend-select form-control" id="legend-select-1-2" asp-for="Game.Composition2.Legend2Id">
+                        <option disabled=true selected=true value="">Select legend</option>
+                        @foreach (var legend in Model.Legends)
+                        {
+                            <option value="@legend.Id">@legend.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Game.Composition2.Legend2Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition2.Team.Player3Id" class="control-label">
+                        @(Model.Game?.Composition2?.Team?.Player3?.Nickname ?? "Player 3")
+                    </label>
+                    <select class="legend-select form-control" id="legend-select-1-3" asp-for="Game.Composition2.Legend3Id">
+                        <option disabled=true selected=true value="">Select legend</option>
+                        @foreach (var legend in Model.Legends)
+                        {
+                            <option value="@legend.Id">@legend.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Game.Composition2.Legend3Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition2.Team.Player4Id" class="control-label">
+                        @(Model.Game?.Composition2?.Team?.Player4?.Nickname ?? "Player 4")
+                    </label>
+                    <select class="legend-select form-control" id="legend-select-1-4" asp-for="Game.Composition2.Legend4Id">
+                        <option disabled=true selected=true value="">Select legend</option>
+                        @foreach (var legend in Model.Legends)
+                        {
+                            <option value="@legend.Id">@legend.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Game.Composition2.Legend4Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Game.Composition2.Team.Player5Id" class="control-label">
+                        @(Model.Game?.Composition2?.Team?.Player5?.Nickname ?? "Player 5")
+                    </label>
+                    <select class="legend-select form-control" id="legend-select-1-5" asp-for="Game.Composition2.Legend5Id">
+                        <option disabled=true selected=true value="">Select legend</option>
+                        @foreach (var legend in Model.Legends)
+                        {
+                            <option value="@legend.Id">@legend.Name</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Game.Composition2.Legend5Id" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Game.Composition2Id" class="control-label"></label>
-                <select asp-for="Game.Composition2Id" class="form-control" asp-items="ViewBag.Composition2Id"></select>
-            </div>
+
+			
             <div class="form-group">
                 <label asp-for="Game.Winner" class="control-label"></label>
                 <input asp-for="Game.Winner" class="form-control" />

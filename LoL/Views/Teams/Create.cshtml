@@ -1,5 +1,4 @@
-﻿@*@model LoL.ViewModel.TeamCreationViewModel*@
-@model LoL.Models.Team
+﻿@model LoL.ViewModel.TeamCreationViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -14,36 +13,64 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Team.Name" class="control-label"></label>
+                <input asp-for="Team.Name" class="form-control" />
+                <span asp-validation-for="Team.Name" class="text-danger"></span>
             </div>
-@*          <div class="form-group">
+            <div class="form-group">
                 <label asp-for="@Model.Team.Player1Id" class="control-label"></label>
-                @foreach(var player in Model.Players)
-                {
-                        <select asp-for="@Model.Team.Player1Id" class ="form-control" asp-items="ViewBag.@Model.Team.Player1Id"></select>
-                }
-            </div>
-*@            <div class="form-group">
-                <label asp-for="Player1Id" class="control-label"></label>
-                <select asp-for="Player1Id" class ="form-control" asp-items="ViewBag.Player1Id"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="Player2Id" class="control-label"></label>
-                <select asp-for="Player2Id" class ="form-control" asp-items="ViewBag.Player2Id"></select>
+                <select class="player-select form-control" id="player-select-1" asp-for="@Model.Team.Player1Id">
+                    <option disabled=true selected=true value="">Select player</option>
+                    @foreach (var player in Model.Players)
+                    {
+                        <option value="@player.Id">@player.Nickname</option>
+                    }
+                </select>
+                <span asp-validation-for="Team.Player1Id" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Player3Id" class="control-label"></label>
-                <select asp-for="Player3Id" class ="form-control" asp-items="ViewBag.Player3Id"></select>
+                <label asp-for="@Model.Team.Player2Id" class="control-label"></label>
+                <select class="player-select form-control" id="player-select-2" asp-for="@Model.Team.Player2Id">
+                    <option disabled=true selected=true value="">Select player</option>
+                    @foreach (var player in Model.Players)
+                    {
+                        <option value="@player.Id">@player.Nickname</option>
+                    }
+                </select>
+                <span asp-validation-for="Team.Player2Id" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Player4Id" class="control-label"></label>
-                <select asp-for="Player4Id" class ="form-control" asp-items="ViewBag.Player4Id"></select>
+                <label asp-for="@Model.Team.Player3Id" class="control-label"></label>
+                <select class="player-select form-control" id="player-select-3" asp-for="@Model.Team.Player3Id">
+                    <option disabled=true selected=true value="">Select player</option>
+                    @foreach (var player in Model.Players)
+                    {
+                        <option value="@player.Id">@player.Nickname</option>
+                    }
+                </select>
+                <span asp-validation-for="Team.Player3Id" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Player5Id" class="control-label"></label>
-                <select asp-for="Player5Id" class ="form-control" asp-items="ViewBag.Player5Id"></select>
+                <label asp-for="@Model.Team.Player4Id" class="control-label"></label>
+                <select class="player-select form-control" id="player-select-4" asp-for="@Model.Team.Player4Id">
+                    <option disabled=true selected=true value="">select player</option>
+                    @foreach (var player in Model.Players)
+                    {
+                        <option value="@player.Id">@player.Nickname</option>
+                    }
+                </select>
+                <span asp-validation-for="Team.Player4Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.Team.Player5Id" class="control-label"></label>
+                <select class="player-select form-control" id="player-select-5" asp-for="@Model.Team.Player5Id">
+                    <option disabled=true selected=true value="">Select player</option>
+                    @foreach (var player in Model.Players)
+                    {
+                        <option value="@player.Id">@player.Nickname</option>
+                    }
+                </select>
+                <span asp-validation-for="Team.Player5Id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -56,6 +83,10 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+<script type="text/javascript" src="../js/teamSelection.js"></script>
+
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
 }

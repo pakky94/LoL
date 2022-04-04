@@ -15,15 +15,9 @@ public class LoLDbContext : DbContext
     {
     }
 
-    // 1 team           N player         
-    // 1 team           N composition
-    // N legends        N composition
-    // 1 composition    N games        (x2)
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         var player = modelBuilder.Entity<Player>();
-        player.Property(p => p.Birthday).HasConversion(date => date.ToDateTime(default), dt => DateOnly.FromDateTime(dt));
 
         var team = modelBuilder.Entity<Team>();
         team.HasOne(m => m.Player1).WithOne().HasForeignKey<Team>(m => m.Player1Id).OnDelete(DeleteBehavior.NoAction);
